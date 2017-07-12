@@ -16,16 +16,23 @@ namespace ImageStore.Controllers
         StoreContext _context;
         IHostingEnvironment _appEnvironment;
 
+
         public HomeController(StoreContext context, IHostingEnvironment appEnvironment)
         {
             _context = context;
             _appEnvironment = appEnvironment;
+            ViewBag.allPath = _appEnvironment.WebRootPath;
         }
 
         public IActionResult Index()
         {
+            if (!Request.Cookies.ContainsKey("UserCookies"))
+            {
+                Response.Cookies.Append("UserCookies", new Random().Next(0, 10000000).ToString(), new CookieOptions() { Expires = DateTime.MaxValue });
+            }
             return View(_context.Images.ToList());
         }
+
         [HttpPost]
         public async Task<IActionResult> AddFile(IFormFile uploadedFile)
         {
@@ -38,7 +45,7 @@ namespace ImageStore.Controllers
                 {
                     await uploadedFile.CopyToAsync(fileStream);
                 }
-                Image file = new Image { Name = uploadedFile.FileName, Path = path, User = HttpContext.Request.Cookies["UserCookies"] };
+                Image file = new Image { Name = uploadedFile.FileName, Path = path, User = Request.Cookies["UserCookies"] };
                 _context.Images.Add(file);
                 _context.SaveChanges();
                 return View("About", file);
@@ -49,9 +56,17 @@ namespace ImageStore.Controllers
 
         public IActionResult Photos()
         {
-            ViewData["User"] = HttpContext.Request.Cookies["UserCookies"];
-            return View(_context.Images.ToList());
+            return View(_context.Images.Where(f => f.User == Request.Cookies["UserCookies"]).ToList());
         }
         
+        public IActionResult GetFile(string name)
+        {
+            if(name!=null)
+            {
+                return PhysicalFile(Path.Combine(_appEnvironment.ContentRootPath, "wwwroot/Files/" + name), "application/octet-stream", name);
+            }
+            return View("Index");
+        }
+
     }
 }

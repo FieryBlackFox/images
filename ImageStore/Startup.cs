@@ -54,14 +54,14 @@ namespace ImageStore
             
             app.UseStaticFiles();
 
-            app.Use(async (context, next) =>
-            {
-                if (!context.Request.Cookies.ContainsKey("UserCookies"))
-                {
-                    context.Response.Cookies.Append("UserCookies", new Random().Next(0, 10000000).ToString());
-                }
-                await next.Invoke();
-            });
+            //app.Use(async (context, next) =>
+            //{
+            //    if (!context.Request.Cookies.ContainsKey("UserCookies"))
+            //    {
+            //        context.Response.Cookies.Append("UserCookies", new Random().Next(0, 10000000).ToString());
+            //    }
+            //    await next.Invoke();
+            //});
 
             app.UseMvc(routes =>
             {

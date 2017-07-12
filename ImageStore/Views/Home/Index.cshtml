@@ -7,25 +7,3 @@
     <input type="file" name="uploadedFile" /><br>
     <input type="submit" value="Загрузить" />
 </form>
-
-@*<h3>Все файлы</h3>
-    <table>
-        <tr>
-            <th>Фото</th>
-            <th>Url</th>
-        </tr>
-
-        @foreach (var f in Model)
-        {
-            <tr>
-                <td>
-                    <img style='width:200px; height:100px' src="@Url.Content(f.Path)">
-                </td>
-                <td>
-                    @Url.Content(f.Path)
-                </td>
-            </tr>
-        }
-
-    </table>
-    *@

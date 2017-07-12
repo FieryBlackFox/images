@@ -1,12 +1,8 @@
 ﻿@{
     ViewData["Title"] = "About";
 }
-<h2>@ViewData["Title"].</h2>
-<h3>@ViewData["Message"]</h3>
-
-<p>Use this area to provide additional information.</p>
-
-
+<br />
 <img style='width:200px; height:100px' src="@Url.Content(Model.Path)">
+URL: <a href="@Model.Path"> http://localhost:60114/@Model.Path</a>
 
 

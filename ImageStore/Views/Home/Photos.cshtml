@@ -2,25 +2,22 @@
 @{
     ViewBag.Title = "Загруженные фото";
 }
-
+<br />
 <table>
     <tr>
-        <th>Фото</th>
-        <th>Url</th>
+        <th><p>Фото</p></th>
+        <th><p>Url</p></th>
     </tr>
 
     @foreach (var f in Model)
     {
-        @if(ViewData["User"].ToString() == f.User)
-        {
-            <tr>
-                <td>
-                    <img style='width:200px; height:100px' src="@Url.Content(f.Path)">
-                </td>
-                <td>
-                    @Url.Content(f.Path)
-                </td>
-            </tr>
-        }
+        <tr>
+            <td>
+                <p><img style='width:200px; height:100px' src="@Url.Content(f.Path)"></p>
+            </td>
+            <td>
+                <p><a href="@f.Path">http://localhost:60114/@f.Path</a></p>
+</td>
+        </tr>
     }
 </table>
