@@ -1,0 +1,26 @@
+﻿@model IEnumerable<ImageStore.Models.Image>
+@{
+    ViewBag.Title = "Загруженные фото";
+}
+
+<table>
+    <tr>
+        <th>Фото</th>
+        <th>Url</th>
+    </tr>
+
+    @foreach (var f in Model)
+    {
+        @if(ViewData["User"].ToString() == f.User)
+        {
+            <tr>
+                <td>
+                    <img style='width:200px; height:100px' src="@Url.Content(f.Path)">
+                </td>
+                <td>
+                    @Url.Content(f.Path)
+                </td>
+            </tr>
+        }
+    }
+</table>
