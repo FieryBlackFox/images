@@ -13,24 +13,24 @@ import { PhotosComponent } from './photos.component';
 const appRoutes: Routes = [
     { path: '', component: HomeComponent },
     { path: 'about', component: AboutComponent },
-    { path: 'photos', component: PhotosComponent },
-    { path: '**', redirectTo: '/' }
+    { path: 'photos', component: PhotosComponent }
 ];
 
 @NgModule({
-  declarations: [
-      AppComponent,
-      HomeComponent,
-      AboutComponent,
-      PhotosComponent
-  ],
-  imports: [
-      BrowserModule,
-      FormsModule,
-      HttpModule,
-      RouterModule.forRoot(appRoutes)
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        HomeComponent,
+        AboutComponent,
+        PhotosComponent
+    ],
+    imports: [
+        BrowserModule,
+        FormsModule,
+        HttpModule,
+        RouterModule.forRoot(appRoutes)
+    ],
+    providers: [],
+    bootstrap: [AppComponent]
 })
+
 export class AppModule { }

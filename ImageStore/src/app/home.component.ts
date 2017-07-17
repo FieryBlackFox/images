@@ -1,45 +1,46 @@
-﻿import { Component, ViewChild } from '@angular/core';
+﻿import { Component, ViewChild, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Http } from '@angular/http';
-import { ImgService } from './img.service';
 
 @Component({
     selector: 'home-app',
-    templateUrl: './home.component.html',
-    providers: [ImgService]
+    templateUrl: './home.component.html'
 })
 
-export class HomeComponent {
+export class HomeComponent implements OnInit {
 
     @ViewChild("fileInput") fileInput;
-    private imgService: ImgService;
-    constructor(private router: Router, private http: Http) {
-        this.imgService = new ImgService(this.http);
-    }
+    constructor(private router: Router, private http: Http) { }
+
     addFile() {
         let fi = this.fileInput.nativeElement;
         if (fi.files) {
-            let fileToUpload = fi.files;
-            this.imgService
-                .upload(fileToUpload)
+            let formData = new FormData();
+            formData.append("files", fi.files[0]);
+
+            return this.http.post('/api/home', formData)
                 .subscribe(res => {
                     if (res.status == 201) {
-
-                        let url = res.url.substr(0, res.url.indexOf('/api/home'))+res.text();
+                        let url = res.url.substr(0, res.url.indexOf("/api")) + res.text();
                         this.router.navigate(
                             ['/about'],
                             {
                                 queryParams: {
-                                    'url': url,
+                                    'url': url
                                 }
                             }
                         );
                     }
                     else {
-                        console.log("G");
+                        console.log("empty file");
                     }
-                    console.log(res.status);
                 });
         }
+    }
+
+    ngOnInit() {
+        this.http.get('/api/home').subscribe(res => {
+            console.log(res.text());
+        });
     }
 }

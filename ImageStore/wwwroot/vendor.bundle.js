@@ -1324,31 +1324,6 @@ function flattenUnsubscriptionErrors(errors) {
 
 /***/ }),
 
-/***/ "../../../../rxjs/add/operator/catch.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var Observable_1 = __webpack_require__("../../../../rxjs/Observable.js");
-var catch_1 = __webpack_require__("../../../../rxjs/operator/catch.js");
-Observable_1.Observable.prototype.catch = catch_1._catch;
-Observable_1.Observable.prototype._catch = catch_1._catch;
-//# sourceMappingURL=catch.js.map
-
-/***/ }),
-
-/***/ "../../../../rxjs/add/operator/map.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var Observable_1 = __webpack_require__("../../../../rxjs/Observable.js");
-var map_1 = __webpack_require__("../../../../rxjs/operator/map.js");
-Observable_1.Observable.prototype.map = map_1.map;
-//# sourceMappingURL=map.js.map
-
-/***/ }),
-
 /***/ "../../../../rxjs/observable/ArrayLikeObservable.js":
 /***/ (function(module, exports, __webpack_require__) {
 

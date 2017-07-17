@@ -47,7 +47,7 @@ var AboutComponent = (function () {
 AboutComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_13" /* Component */])({
         selector: 'about-app',
-        template: "<h3>\u0417\u0434\u0435\u0441\u044C \u0431\u0443\u0434\u0435\u0442 \u0437\u0430\u0433\u0440\u0443\u0436\u0435\u043D\u043D\u043E\u0435 \u0444\u043E\u0442\u043E  Url: {{url}}</h3>"
+        template: "<img width=\"300\" height=\"200\" src=\"{{url}}\"> Url:<a href=\"{{url}}\">{{url}}</a>"
     }),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* ActivatedRoute */]) === "function" && _a || Object])
 ], AboutComponent);
@@ -144,8 +144,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var appRoutes = [
     { path: '', component: __WEBPACK_IMPORTED_MODULE_7__home_component__["a" /* HomeComponent */] },
     { path: 'about', component: __WEBPACK_IMPORTED_MODULE_6__about_component__["a" /* AboutComponent */] },
-    { path: 'photos', component: __WEBPACK_IMPORTED_MODULE_8__photos_component__["a" /* PhotosComponent */] },
-    { path: '**', redirectTo: '/' }
+    { path: 'photos', component: __WEBPACK_IMPORTED_MODULE_8__photos_component__["a" /* PhotosComponent */] }
 ];
 var AppModule = (function () {
     function AppModule() {
@@ -189,7 +188,6 @@ module.exports = "<h3>Выберите файл для загрузки</h3>\r\n
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__img_service__ = __webpack_require__("../../../../../src/app/img.service.ts");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HomeComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -203,35 +201,37 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-
 var HomeComponent = (function () {
     function HomeComponent(router, http) {
         this.router = router;
         this.http = http;
-        this.imgService = new __WEBPACK_IMPORTED_MODULE_3__img_service__["a" /* ImgService */](this.http);
     }
     HomeComponent.prototype.addFile = function () {
         var _this = this;
         var fi = this.fileInput.nativeElement;
         if (fi.files) {
-            var fileToUpload = fi.files;
-            this.imgService
-                .upload(fileToUpload)
+            var formData = new FormData();
+            formData.append("files", fi.files[0]);
+            return this.http.post('/api/home', formData)
                 .subscribe(function (res) {
                 if (res.status == 201) {
-                    var url = res.url.substr(0, res.url.indexOf('/api/home')) + res.text();
+                    var url = res.url.substr(0, res.url.indexOf("/api")) + res.text();
                     _this.router.navigate(['/about'], {
                         queryParams: {
-                            'url': url,
+                            'url': url
                         }
                     });
                 }
                 else {
-                    console.log("G");
+                    console.log("empty file");
                 }
-                console.log(res.status);
             });
         }
+    };
+    HomeComponent.prototype.ngOnInit = function () {
+        this.http.get('/api/home').subscribe(function (res) {
+            console.log(res.text());
+        });
     };
     return HomeComponent;
 }());
@@ -242,8 +242,7 @@ __decorate([
 HomeComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_13" /* Component */])({
         selector: 'home-app',
-        template: __webpack_require__("../../../../../src/app/home.component.html"),
-        providers: [__WEBPACK_IMPORTED_MODULE_3__img_service__["a" /* ImgService */]]
+        template: __webpack_require__("../../../../../src/app/home.component.html")
     }),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_http__["b" /* Http */]) === "function" && _b || Object])
 ], HomeComponent);
@@ -253,17 +252,13 @@ var _a, _b;
 
 /***/ }),
 
-/***/ "../../../../../src/app/img.service.ts":
+/***/ "../../../../../src/app/photos.component.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__("../../../../rxjs/add/operator/map.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_catch__ = __webpack_require__("../../../../rxjs/add/operator/catch.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_catch___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_catch__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ImgService; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PhotosComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -275,60 +270,35 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
-
-
-var ImgService = (function () {
-    function ImgService(http) {
+var PhotosComponent = (function () {
+    function PhotosComponent(http) {
         this.http = http;
     }
-    ;
-    ImgService.prototype.upload = function (files) {
-        var formData = new FormData();
-        //for (let i = 0; i < files.length; i++) {
-        console.log(files[0]);
-        formData.append("files", files[0]);
-        console.log(formData);
-        //}
-        return this.http
-            .post('/api/home', formData);
+    PhotosComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.http.get('/api/home/photos').subscribe(function (res) {
+            _this.urls = res.json();
+            for (var i in _this.urls) {
+                _this.urls[i].path = res.url.substr(0, res.url.indexOf("/api")) + _this.urls[i].path;
+            }
+        });
     };
-    return ImgService;
-}());
-ImgService = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* Injectable */])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object])
-], ImgService);
-
-var _a;
-//# sourceMappingURL=img.service.js.map
-
-/***/ }),
-
-/***/ "../../../../../src/app/photos.component.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PhotosComponent; });
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-
-var PhotosComponent = (function () {
-    function PhotosComponent() {
-    }
     return PhotosComponent;
 }());
 PhotosComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_13" /* Component */])({
         selector: 'photos-app',
-        template: "<h3>\u0437\u0434\u0435\u0441\u044C \u0431\u0443\u0434\u0443\u0442 \u043E\u0442\u043E\u0431\u0440\u0430\u0436\u0430\u0442\u044C\u0441\u044F \u0444\u043E\u0442\u043E\u0433\u0440\u0430\u0444\u0438\u0438</h3>\n<table>\n    <tr>\n        <th><p>\u0424\u043E\u0442\u043E</p></th>\n        <th><p>Url</p></th>\n    </tr>\n\n    @foreach (var f in Model)\n    {\n        <tr>\n            <td>\n                <p><img style='width:200px; height:100px' src=\"@Url.Content(f.Path)\"></p>\n            </td>\n            <td>\n                <p><a href=\"@f.Path\">http://localhost:60114/@f.Path</a></p>\n</td>\n        </tr>\n    }\n</table>\n"
-    })
+        template: "\n<div *ngFor=\"let u of urls\">\n<img src=\"{{u.path}}\" width=\"300\" height=\"200\"> Url:<a href=\"{{u.path}}\">{{u.path}}</a>\n    </div>\n"
+    }),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object])
 ], PhotosComponent);
 
+var inform = (function () {
+    function inform() {
+    }
+    return inform;
+}());
+var _a;
 //# sourceMappingURL=photos.component.js.map
 
 /***/ }),

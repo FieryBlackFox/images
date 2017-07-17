@@ -11,9 +11,13 @@
 
   <ItemGroup>
     <Compile Remove="Views\**" />
+    <Compile Remove="wwwroot\Files\**" />
     <Content Remove="Views\**" />
+    <Content Remove="wwwroot\Files\**" />
     <EmbeddedResource Remove="Views\**" />
+    <EmbeddedResource Remove="wwwroot\Files\**" />
     <None Remove="Views\**" />
+    <None Remove="wwwroot\Files\**" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
@@ -30,9 +34,13 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="image-store\" />
-    <Folder Include="wwwroot\Files\" />
     <Folder Include="Files\" />
+    <Folder Include="image-store\" />
+    <Folder Include="Files\">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Folder>
+    <Folder Include="wwwroot\assets\image\" />
+    <Folder Include="wwwroot\store\" />
   </ItemGroup>
 
 </Project>
