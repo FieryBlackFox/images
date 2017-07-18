@@ -30,7 +30,7 @@ namespace ImageStore.Controllers
     {
       try
       {
-        if (files.Count() != 0)
+        if ((files!=null)&&(files.Count() != 0))
         {
           var uploadedFile = files[0];
           string extension = Path.GetExtension(files[0].FileName);

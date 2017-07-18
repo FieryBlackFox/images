@@ -223,7 +223,7 @@ var HomeComponent = (function () {
                     });
                 }
                 else {
-                    console.log("empty file");
+                    alert("Выберите файл!");
                 }
             });
         }
@@ -288,7 +288,7 @@ var PhotosComponent = (function () {
 PhotosComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_13" /* Component */])({
         selector: 'photos-app',
-        template: "\n<div *ngFor=\"let u of urls\">\n<img src=\"{{u.path}}\" width=\"300\" height=\"200\"> Url:<a href=\"{{u.path}}\">{{u.path}}</a>\n    </div>\n"
+        template: "<br/>\n<div *ngFor=\"let u of urls\">\n<img src=\"{{u.path}}\" width=\"300\" height=\"200\"> Url:<a href=\"{{u.path}}\">{{u.path}}</a>\n    </div>\n"
     }),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object])
 ], PhotosComponent);

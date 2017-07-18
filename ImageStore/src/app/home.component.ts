@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit {
                         );
                     }
                     else {
-                        console.log("empty file");
+                        alert("Выберите файл!");
                     }
                 });
         }
